@@ -1,0 +1,729 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| akash              |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.15 sec)
+
+mysql> use akash;
+Database changed
+mysql> showtables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'showtables' at line 1
+mysql> show tables;
++-----------------+
+| Tables_in_akash |
++-----------------+
+| employe         |
+| student         |
++-----------------+
+2 rows in set (0.02 sec)
+
+mysql> select * from employe;
++------+-------+---------+----------------+------------------+--------+
+| id   | name  | dept    | project_name   | project_location | salary |
++------+-------+---------+----------------+------------------+--------+
+|    1 | rahul | mca     | booking        | kuttikatoor      | 100000 |
+|    2 | akshy | network | farma          | narikuni         | 110000 |
+|    3 | amal  | cs      | marketing      | mavoor           | 130000 |
+|    4 | athul | mca     | machinelearing | palayam          | 200000 |
++------+-------+---------+----------------+------------------+--------+
+4 rows in set (0.01 sec)
+
+mysql> select * from student;
++------+------------+-----------+-------------+--------+
+| id   | name       | job       | address     | mobile |
++------+------------+-----------+-------------+--------+
+|    1 | salah      | developer | paruthipara |  12345 |
+|    3 | mojo       | designer  | vattakiner  |   NULL |
+|    4 | dani       | ambacidor | mavoor      |   NULL |
+|    5 | chottabeem | developer | pannuor     |   NULL |
++------+------------+-----------+-------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> alter table employe add(salart_date date);
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employe;
++------+-------+---------+----------------+------------------+--------+-------------+
+| id   | name  | dept    | project_name   | project_location | salary | salart_date |
++------+-------+---------+----------------+------------------+--------+-------------+
+|    1 | rahul | mca     | booking        | kuttikatoor      | 100000 | NULL        |
+|    2 | akshy | network | farma          | narikuni         | 110000 | NULL        |
+|    3 | amal  | cs      | marketing      | mavoor           | 130000 | NULL        |
+|    4 | athul | mca     | machinelearing | palayam          | 200000 | NULL        |
++------+-------+---------+----------------+------------------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> upadte employe set salary_date="12-23-2025" whereid=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'upadte employe set salary_date="12-23-2025" whereid=1' at line 1
+mysql> upadte employe set salary_date="12-23-2025" where id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'upadte employe set salary_date="12-23-2025" where id=1' at line 1
+mysql> upadte from employe set salary_date="12-23-2025" where id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'upadte from employe set salary_date="12-23-2025" where id=1' at line 1
+mysql> upadte employe set salary_date=12-23-2025 where id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'upadte employe set salary_date=12-23-2025 where id=1' at line 1
+mysql> update employe set salary_date=12-23-2025 where id=1;
+ERROR 1054 (42S22): Unknown column 'salary_date' in 'field list'
+mysql> update employe set salary_date="12-23-2025" where id=1;
+ERROR 1054 (42S22): Unknown column 'salary_date' in 'field list'
+mysql> alter table employe drop salart_date;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employe add(salary_date date);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update employe set salary_date=12-23-2024 where id=1;
+ERROR 1292 (22007): Incorrect date value: '-2035' for column 'salary_date' at row 1
+mysql> update employe set salary_date="12-23-2024" where id=1;
+ERROR 1292 (22007): Incorrect date value: '12-23-2024' for column 'salary_date' at row 1
+mysql> update employe set salary_date=12-23-2024 where id=1;
+ERROR 1292 (22007): Incorrect date value: '-2035' for column 'salary_date' at row 1
+mysql> update employe set salary_date=2024-12-12 where id=1;
+ERROR 1292 (22007): Incorrect date value: '2000' for column 'salary_date' at row 1
+mysql> update employe set salary_date=12-23-2024 where id=1;
+ERROR 1292 (22007): Incorrect date value: '-2035' for column 'salary_date' at row 1
+mysql> update employe set salary_date="12-23-2024" where id=1;
+ERROR 1292 (22007): Incorrect date value: '12-23-2024' for column 'salary_date' at row 1
+mysql> update employe set salary_date="2024-12-12" where id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employe;
++------+-------+---------+----------------+------------------+--------+-------------+
+| id   | name  | dept    | project_name   | project_location | salary | salary_date |
++------+-------+---------+----------------+------------------+--------+-------------+
+|    1 | rahul | mca     | booking        | kuttikatoor      | 100000 | 2024-12-12  |
+|    2 | akshy | network | farma          | narikuni         | 110000 | NULL        |
+|    3 | amal  | cs      | marketing      | mavoor           | 130000 | NULL        |
+|    4 | athul | mca     | machinelearing | palayam          | 200000 | NULL        |
++------+-------+---------+----------------+------------------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> update employe set salary_date="2024-12-13" where id=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employe set salary_date="2024-12-14" where id=3;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employe set salary_date="2024-12-15" where id=4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employe;
++------+-------+---------+----------------+------------------+--------+-------------+
+| id   | name  | dept    | project_name   | project_location | salary | salary_date |
++------+-------+---------+----------------+------------------+--------+-------------+
+|    1 | rahul | mca     | booking        | kuttikatoor      | 100000 | 2024-12-12  |
+|    2 | akshy | network | farma          | narikuni         | 110000 | 2024-12-13  |
+|    3 | amal  | cs      | marketing      | mavoor           | 130000 | 2024-12-14  |
+|    4 | athul | mca     | machinelearing | palayam          | 200000 | 2024-12-15  |
++------+-------+---------+----------------+------------------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student;
++------+------------+-----------+-------------+--------+
+| id   | name       | job       | address     | mobile |
++------+------------+-----------+-------------+--------+
+|    1 | salah      | developer | paruthipara |  12345 |
+|    3 | mojo       | designer  | vattakiner  |   NULL |
+|    4 | dani       | ambacidor | mavoor      |   NULL |
+|    5 | chottabeem | developer | pannuor     |   NULL |
++------+------------+-----------+-------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select student.id,student.name,employe.id from student join employe on student.id=employe.id;
++------+-------+------+
+| id   | name  | id   |
++------+-------+------+
+|    1 | salah |    1 |
+|    3 | mojo  |    3 |
+|    4 | dani  |    4 |
++------+-------+------+
+3 rows in set (0.00 sec)
+
+mysql> select student.id,employe.id,student.name from student join on student.id=employe.id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on student.id=employe.id' at line 1
+mysql> select student.id,employe.id,student.name from student join employe on student.id=employe.id;
++------+------+-------+
+| id   | id   | name  |
++------+------+-------+
+|    1 |    1 | salah |
+|    3 |    3 | mojo  |
+|    4 |    4 | dani  |
++------+------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student join employe on student.id=employe.id;
++------+-------+-----------+-------------+--------+------+-------+------+----------------+------------------+--------+-------------+
+| id   | name  | job       | address     | mobile | id   | name  | dept | project_name   | project_location | salary | salary_date |
++------+-------+-----------+-------------+--------+------+-------+------+----------------+------------------+--------+-------------+
+|    1 | salah | developer | paruthipara |  12345 |    1 | rahul | mca  | booking        | kuttikatoor      | 100000 | 2024-12-12  |
+|    3 | mojo  | designer  | vattakiner  |   NULL |    3 | amal  | cs   | marketing      | mavoor           | 130000 | 2024-12-14  |
+|    4 | dani  | ambacidor | mavoor      |   NULL |    4 | athul | mca  | machinelearing | palayam          | 200000 | 2024-12-15  |
++------+-------+-----------+-------------+--------+------+-------+------+----------------+------------------+--------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select student.id,employe.id,student.name from student left join employe on student.id=employe.id;
++------+------+------------+
+| id   | id   | name       |
++------+------+------------+
+|    1 |    1 | salah      |
+|    3 |    3 | mojo       |
+|    4 |    4 | dani       |
+|    5 | NULL | chottabeem |
++------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select student.id,employe.id,student.name from student right join employe on student.id=employe.id;
++------+------+-------+
+| id   | id   | name  |
++------+------+-------+
+|    1 |    1 | salah |
+| NULL |    2 | NULL  |
+|    3 |    3 | mojo  |
+|    4 |    4 | dani  |
++------+------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select student.id,employe.id,student.name from student join employe on student.id>employe.id;
++------+------+------------+
+| id   | id   | name       |
++------+------+------------+
+|    5 |    1 | chottabeem |
+|    4 |    1 | dani       |
+|    3 |    1 | mojo       |
+|    5 |    2 | chottabeem |
+|    4 |    2 | dani       |
+|    3 |    2 | mojo       |
+|    5 |    3 | chottabeem |
+|    4 |    3 | dani       |
+|    5 |    4 | chottabeem |
++------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> select student.id,employe.id,student.name from student join employe on employe.id>student.id;
++------+------+-------+
+| id   | id   | name  |
++------+------+-------+
+|    1 |    2 | salah |
+|    1 |    3 | salah |
+|    3 |    4 | mojo  |
+|    1 |    4 | salah |
++------+------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table employe add primary key(id);
+Query OK, 0 rows affected (0.18 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employe;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| id               | int         | NO   | PRI | NULL    |       |
+| name             | varchar(20) | YES  |     | NULL    |       |
+| dept             | varchar(20) | YES  |     | NULL    |       |
+| project_name     | varchar(20) | YES  |     | NULL    |       |
+| project_location | varchar(20) | YES  |     | NULL    |       |
+| salary           | int         | YES  |     | NULL    |       |
+| salary_date      | date        | YES  |     | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.02 sec)
+
+mysql> alter table student add primary key(id);
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id      | int         | NO   | PRI | NULL    |       |
+| name    | varchar(10) | YES  |     | NULL    |       |
+| job     | varchar(10) | YES  |     | NULL    |       |
+| address | varchar(30) | YES  |     | NULL    |       |
+| mobile  | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from employe;
++----+-------+---------+----------------+------------------+--------+-------------+
+| id | name  | dept    | project_name   | project_location | salary | salary_date |
++----+-------+---------+----------------+------------------+--------+-------------+
+|  1 | rahul | mca     | booking        | kuttikatoor      | 100000 | 2024-12-12  |
+|  2 | akshy | network | farma          | narikuni         | 110000 | 2024-12-13  |
+|  3 | amal  | cs      | marketing      | mavoor           | 130000 | 2024-12-14  |
+|  4 | athul | mca     | machinelearing | palayam          | 200000 | 2024-12-15  |
++----+-------+---------+----------------+------------------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student;
++----+------------+-----------+-------------+--------+
+| id | name       | job       | address     | mobile |
++----+------------+-----------+-------------+--------+
+|  1 | salah      | developer | paruthipara |  12345 |
+|  3 | mojo       | designer  | vattakiner  |   NULL |
+|  4 | dani       | ambacidor | mavoor      |   NULL |
+|  5 | chottabeem | developer | pannuor     |   NULL |
++----+------------+-----------+-------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> delete student column id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'column id' at line 1
+mysql> delete student from  column id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'column id' at line 1
+mysql> alter table student drop column id;
+Query OK, 4 rows affected (0.09 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++------------+-----------+-------------+--------+
+| name       | job       | address     | mobile |
++------------+-----------+-------------+--------+
+| salah      | developer | paruthipara |  12345 |
+| mojo       | designer  | vattakiner  |   NULL |
+| dani       | ambacidor | mavoor      |   NULL |
+| chottabeem | developer | pannuor     |   NULL |
++------------+-----------+-------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student add(s_id int );
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update student set id=1 where job="developer";
+ERROR 1054 (42S22): Unknown column 'id' in 'field list'
+mysql> update student set id=1 where job="developer";
+ERROR 1054 (42S22): Unknown column 'id' in 'field list'
+mysql> select * from student;
++------------+-----------+-------------+--------+------+
+| name       | job       | address     | mobile | s_id |
++------------+-----------+-------------+--------+------+
+| salah      | developer | paruthipara |  12345 | NULL |
+| mojo       | designer  | vattakiner  |   NULL | NULL |
+| dani       | ambacidor | mavoor      |   NULL | NULL |
+| chottabeem | developer | pannuor     |   NULL | NULL |
++------------+-----------+-------------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> update student set s_id=1 where job="developer";
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from student;
++------------+-----------+-------------+--------+------+
+| name       | job       | address     | mobile | s_id |
++------------+-----------+-------------+--------+------+
+| salah      | developer | paruthipara |  12345 |    1 |
+| mojo       | designer  | vattakiner  |   NULL | NULL |
+| dani       | ambacidor | mavoor      |   NULL | NULL |
+| chottabeem | developer | pannuor     |   NULL |    1 |
++------------+-----------+-------------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> update student set id=2 where job="designer";
+ERROR 1054 (42S22): Unknown column 'id' in 'field list'
+mysql> update student set s_id=2 where job="designer";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set s_id=3 where job="ambacidor";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set s_id=4 where address="pannuor";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employe;
++----+-------+---------+----------------+------------------+--------+-------------+
+| id | name  | dept    | project_name   | project_location | salary | salary_date |
++----+-------+---------+----------------+------------------+--------+-------------+
+|  1 | rahul | mca     | booking        | kuttikatoor      | 100000 | 2024-12-12  |
+|  2 | akshy | network | farma          | narikuni         | 110000 | 2024-12-13  |
+|  3 | amal  | cs      | marketing      | mavoor           | 130000 | 2024-12-14  |
+|  4 | athul | mca     | machinelearing | palayam          | 200000 | 2024-12-15  |
++----+-------+---------+----------------+------------------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student;
++------------+-----------+-------------+--------+------+
+| name       | job       | address     | mobile | s_id |
++------------+-----------+-------------+--------+------+
+| salah      | developer | paruthipara |  12345 |    1 |
+| mojo       | designer  | vattakiner  |   NULL |    2 |
+| dani       | ambacidor | mavoor      |   NULL |    3 |
+| chottabeem | developer | pannuor     |   NULL |    4 |
++------------+-----------+-------------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> alter table employe add(s_id int);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employe;
++----+-------+---------+----------------+------------------+--------+-------------+------+
+| id | name  | dept    | project_name   | project_location | salary | salary_date | s_id |
++----+-------+---------+----------------+------------------+--------+-------------+------+
+|  1 | rahul | mca     | booking        | kuttikatoor      | 100000 | 2024-12-12  | NULL |
+|  2 | akshy | network | farma          | narikuni         | 110000 | 2024-12-13  | NULL |
+|  3 | amal  | cs      | marketing      | mavoor           | 130000 | 2024-12-14  | NULL |
+|  4 | athul | mca     | machinelearing | palayam          | 200000 | 2024-12-15  | NULL |
++----+-------+---------+----------------+------------------+--------+-------------+------+
+4 rows in set (0.00 sec)
+
+mysql> update employe set s_id=1 where id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employe set s_id=2 where id=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employe set s_id=3 where id=3;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employe set s_id=4 where id=4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employe set s_id=5 where id=5;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from employe;
++----+-------+---------+----------------+------------------+--------+-------------+------+
+| id | name  | dept    | project_name   | project_location | salary | salary_date | s_id |
++----+-------+---------+----------------+------------------+--------+-------------+------+
+|  1 | rahul | mca     | booking        | kuttikatoor      | 100000 | 2024-12-12  |    1 |
+|  2 | akshy | network | farma          | narikuni         | 110000 | 2024-12-13  |    2 |
+|  3 | amal  | cs      | marketing      | mavoor           | 130000 | 2024-12-14  |    3 |
+|  4 | athul | mca     | machinelearing | palayam          | 200000 | 2024-12-15  |    4 |
++----+-------+---------+----------------+------------------+--------+-------------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student;
++------------+-----------+-------------+--------+------+
+| name       | job       | address     | mobile | s_id |
++------------+-----------+-------------+--------+------+
+| salah      | developer | paruthipara |  12345 |    1 |
+| mojo       | designer  | vattakiner  |   NULL |    2 |
+| dani       | ambacidor | mavoor      |   NULL |    3 |
+| chottabeem | developer | pannuor     |   NULL |    4 |
++------------+-----------+-------------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> ulter table student add primary key(s_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ulter table student add primary key(s_id)' at line 1
+mysql> alter table student add primary key(s_id);
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(10) | YES  |     | NULL    |       |
+| job     | varchar(10) | YES  |     | NULL    |       |
+| address | varchar(30) | YES  |     | NULL    |       |
+| mobile  | int         | YES  |     | NULL    |       |
+| s_id    | int         | NO   | PRI | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc employe;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| id               | int         | NO   | PRI | NULL    |       |
+| name             | varchar(20) | YES  |     | NULL    |       |
+| dept             | varchar(20) | YES  |     | NULL    |       |
+| project_name     | varchar(20) | YES  |     | NULL    |       |
+| project_location | varchar(20) | YES  |     | NULL    |       |
+| salary           | int         | YES  |     | NULL    |       |
+| salary_date      | date        | YES  |     | NULL    |       |
+| s_id             | int         | YES  |     | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table employe add foreign key(s_id) references student(s_id);
+Query OK, 4 rows affected (0.11 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc employe;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| id               | int         | NO   | PRI | NULL    |       |
+| name             | varchar(20) | YES  |     | NULL    |       |
+| dept             | varchar(20) | YES  |     | NULL    |       |
+| project_name     | varchar(20) | YES  |     | NULL    |       |
+| project_location | varchar(20) | YES  |     | NULL    |       |
+| salary           | int         | YES  |     | NULL    |       |
+| salary_date      | date        | YES  |     | NULL    |       |
+| s_id             | int         | YES  | MUL | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select employe.id,employe.name,student.s_id from employe join student on student.s_id=employe.s_id;
++----+-------+------+
+| id | name  | s_id |
++----+-------+------+
+|  1 | rahul |    1 |
+|  2 | akshy |    2 |
+|  3 | amal  |    3 |
+|  4 | athul |    4 |
++----+-------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employe natural join student;
+Empty set (0.00 sec)
+
+mysql> select * from employe naturaljoin student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'student' at line 1
+mysql> select * from employe natural join student;
+Empty set (0.00 sec)
+
+mysql> create table first(id int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> alter table first add(1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1)' at line 1
+mysql> insert into first values(1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create table second(id int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into second values(1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from first;
++------+
+| id   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select * from second;
++------+
+| id   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select * from first natural join second;
++------+
+| id   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> insert inti second values(2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'second values(2)' at line 1
+mysql> insert into second values(2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from second;
++------+
+| id   |
++------+
+|    1 |
+|    2 |
++------+
+2 rows in set (0.00 sec)
+
+mysql> select * from first natural join second;
++------+
+| id   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select id from first natural join second;
++------+
+| id   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select * from student natural join employ;
+ERROR 1146 (42S02): Table 'akash.employ' doesn't exist
+mysql> select * from student natural join employe;
+Empty set (0.00 sec)
+
+mysql> select * fom employe;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fom employe' at line 1
+mysql> select * from employe;
++----+-------+---------+----------------+------------------+--------+-------------+------+
+| id | name  | dept    | project_name   | project_location | salary | salary_date | s_id |
++----+-------+---------+----------------+------------------+--------+-------------+------+
+|  1 | rahul | mca     | booking        | kuttikatoor      | 100000 | 2024-12-12  |    1 |
+|  2 | akshy | network | farma          | narikuni         | 110000 | 2024-12-13  |    2 |
+|  3 | amal  | cs      | marketing      | mavoor           | 130000 | 2024-12-14  |    3 |
+|  4 | athul | mca     | machinelearing | palayam          | 200000 | 2024-12-15  |    4 |
++----+-------+---------+----------------+------------------+--------+-------------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student;
++------------+-----------+-------------+--------+------+
+| name       | job       | address     | mobile | s_id |
++------------+-----------+-------------+--------+------+
+| salah      | developer | paruthipara |  12345 |    1 |
+| mojo       | designer  | vattakiner  |   NULL |    2 |
+| dani       | ambacidor | mavoor      |   NULL |    3 |
+| chottabeem | developer | pannuor     |   NULL |    4 |
++------------+-----------+-------------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employe natural join studnt;
+ERROR 1146 (42S02): Table 'akash.studnt' doesn't exist
+mysql> select * from employe natural join student;
+Empty set (0.00 sec)
+
+mysql> desc employe;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| id               | int         | NO   | PRI | NULL    |       |
+| name             | varchar(20) | YES  |     | NULL    |       |
+| dept             | varchar(20) | YES  |     | NULL    |       |
+| project_name     | varchar(20) | YES  |     | NULL    |       |
+| project_location | varchar(20) | YES  |     | NULL    |       |
+| salary           | int         | YES  |     | NULL    |       |
+| salary_date      | date        | YES  |     | NULL    |       |
+| s_id             | int         | YES  | MUL | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select * from student natural join employe;
+Empty set (0.00 sec)
+
+mysql> select id,name from employe;
++----+-------+
+| id | name  |
++----+-------+
+|  1 | rahul |
+|  2 | akshy |
+|  3 | amal  |
+|  4 | athul |
++----+-------+
+4 rows in set (0.00 sec)
+
+mysql> create view employe view as select id,name from employe;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'view as select id,name from employe' at line 1
+mysql> create view employeview as select id,name from employe;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * fom employeviw;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fom employeviw' at line 1
+mysql> select * fom employeview;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fom employeview' at line 1
+mysql> select * from employeview;
++----+-------+
+| id | name  |
++----+-------+
+|  1 | rahul |
+|  2 | akshy |
+|  3 | amal  |
+|  4 | athul |
++----+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student naturaljoin employe;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employe' at line 1
+mysql> select * from student natural join employe;
+Empty set (0.00 sec)
+
+mysql> select s_id,name from student s where exists( select * from employee p where p.s_id=s.s_id);
+ERROR 1146 (42S02): Table 'akash.employee' doesn't exist
+mysql> select s_id,name from student s where exists( select * from employe p where p.s_id=s.s_id);
++------+------------+
+| s_id | name       |
++------+------------+
+|    1 | salah      |
+|    2 | mojo       |
+|    3 | dani       |
+|    4 | chottabeem |
++------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employe;
++----+-------+---------+----------------+------------------+--------+-------------+------+
+| id | name  | dept    | project_name   | project_location | salary | salary_date | s_id |
++----+-------+---------+----------------+------------------+--------+-------------+------+
+|  1 | rahul | mca     | booking        | kuttikatoor      | 100000 | 2024-12-12  |    1 |
+|  2 | akshy | network | farma          | narikuni         | 110000 | 2024-12-13  |    2 |
+|  3 | amal  | cs      | marketing      | mavoor           | 130000 | 2024-12-14  |    3 |
+|  4 | athul | mca     | machinelearing | palayam          | 200000 | 2024-12-15  |    4 |
++----+-------+---------+----------------+------------------+--------+-------------+------+
+4 rows in set (0.00 sec)
+
+mysql> seletc * from second;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'seletc * from second' at line 1
+mysql> select * from second;
++------+
+| id   |
++------+
+|    1 |
+|    2 |
++------+
+2 rows in set (0.00 sec)
+
+mysql> delete from second where id=1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from second;
++------+
+| id   |
++------+
+|    2 |
++------+
+1 row in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from second;
++------+
+| id   |
++------+
+|    2 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select * from second;
++------+
+| id   |
++------+
+|    2 |
++------+
+1 row in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from second;
++------+
+| id   |
++------+
+|    2 |
++------+
+1 row in set (0.00 sec)
+
+mysql>

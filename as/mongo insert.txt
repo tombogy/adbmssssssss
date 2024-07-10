@@ -1,0 +1,1440 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| akash              |
+| information_schema |
+| mysql              |
+| nawaf              |
+| performance_schema |
++--------------------+
+5 rows in set (0.04 sec)
+
+mysql> create database exam;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> show tables;
+ERROR 1046 (3D000): No database selected
+mysql> show tables;
+ERROR 1046 (3D000): No database selected
+mysql> create table cate(c_id int,c_name varchar(50),parent int );
+ERROR 1046 (3D000): No database selected
+mysql> use exam;
+Database changed
+mysql> show talbles;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'talbles' at line 1
+mysql> show tables;
+Empty set (0.01 sec)
+
+mysql> create table cate(c_id int,c_name varchar(50),parent int );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc cate;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| c_id   | int         | YES  |     | NULL    |       |
+| c_name | varchar(50) | YES  |     | NULL    |       |
+| parent | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> drop table cate;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table cate(c_id int,c_name varchar(50) not null,parent int );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> alter table cate add primary key(c_id);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc cate;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| c_id   | int         | NO   | PRI | NULL    |       |
+| c_name | varchar(50) | NO   |     | NULL    |       |
+| parent | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into cate values(1,"phone")
+    -> insert into cate values(1,"phone");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'insert into cate values(1,"phone")' at line 2
+mysql> insert into cate values(1,"phone",NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from cate;
++------+--------+--------+
+| c_id | c_name | parent |
++------+--------+--------+
+|    1 | phone  |   NULL |
++------+--------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into cate values(2,"laptop",NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into cate values(3,"console",NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into cate values(4,"iphone",1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into cate values(5,"windows",2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into cate values(6,"xbox",3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from cate;
++------+---------+--------+
+| c_id | c_name  | parent |
++------+---------+--------+
+|    1 | phone   |   NULL |
+|    2 | laptop  |   NULL |
+|    3 | console |   NULL |
+|    4 | iphone  |      1 |
+|    5 | windows |      2 |
+|    6 | xbox    |      3 |
++------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> create table product(p_id int,name varchar(50),price float(2,4),c_id int,quantity int);
+ERROR 1427 (42000): For float(M,D), double(M,D) or decimal(M,D), M must be >= D (column 'price').
+mysql> create table product(p_id int,name varchar(50),price float default 100.00,c_id int,quantity int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc product;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| p_id     | int         | YES  |     | NULL    |       |
+| name     | varchar(50) | YES  |     | NULL    |       |
+| price    | float       | YES  |     | 100     |       |
+| c_id     | int         | YES  |     | NULL    |       |
+| quantity | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table product add primary key(p_id);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc product;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| p_id     | int         | NO   | PRI | NULL    |       |
+| name     | varchar(50) | YES  |     | NULL    |       |
+| price    | float       | YES  |     | 100     |       |
+| c_id     | int         | YES  |     | NULL    |       |
+| quantity | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table product add foreign key(c_id) references cate(c_id);
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc product;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| p_id     | int         | NO   | PRI | NULL    |       |
+| name     | varchar(50) | YES  |     | NULL    |       |
+| price    | float       | YES  |     | 100     |       |
+| c_id     | int         | YES  | MUL | NULL    |       |
+| quantity | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc cate;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| c_id   | int         | NO   | PRI | NULL    |       |
+| c_name | varchar(50) | NO   |     | NULL    |       |
+| parent | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into product values(1,"iphone 12",999.99,4,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from product;
++------+-----------+--------+------+----------+
+| p_id | name      | price  | c_id | quantity |
++------+-----------+--------+------+----------+
+|    1 | iphone 12 | 999.99 |    4 |       10 |
++------+-----------+--------+------+----------+
+1 row in set (0.00 sec)
+
+mysql> insert into product values(2,"macbook pro",1999.99,2,5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into product values(3,"dell xps 15",1599.99,5,8);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into product values(4,"sony platstation",5499.99,3,20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into product values(5,"nintendo",149.99,3,12);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into product values(6,"Xbox seriesX",499.99,6);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into product values(6,"Xbox seriesX",499.99,6);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into product values(6,"Xbox seriesX",499.99,6,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from product;
++------+------------------+---------+------+----------+
+| p_id | name             | price   | c_id | quantity |
++------+------------------+---------+------+----------+
+|    1 | iphone 12        |  999.99 |    4 |       10 |
+|    2 | macbook pro      | 1999.99 |    2 |        5 |
+|    3 | dell xps 15      | 1599.99 |    5 |        8 |
+|    4 | sony platstation | 5499.99 |    3 |       20 |
+|    5 | nintendo         |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX     |  499.99 |    6 |       10 |
++------+------------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> alter table product add constraint pro check(price between 0 and 3000);
+ERROR 3819 (HY000): Check constraint 'pro' is violated.
+mysql> alter table product add constraint chk_price check(price between 0 and 3000);
+ERROR 3819 (HY000): Check constraint 'chk_price' is violated.
+mysql> alter table product add constraint price  check(price between 0 and 3000);
+ERROR 3819 (HY000): Check constraint 'price' is violated.
+mysql> alter table product add constraint product check(price between 0 and 3000);
+ERROR 3819 (HY000): Check constraint 'product' is violated.
+mysql> alter table product add constraint check(price between 0 and 3000);
+ERROR 3819 (HY000): Check constraint 'product_chk_1' is violated.
+mysql> alter table product add constraint check(price between 0 and 3000);
+ERROR 3819 (HY000): Check constraint 'product_chk_1' is violated.
+mysql> select * from product where 0<price<3000;
++------+------------------+---------+------+----------+
+| p_id | name             | price   | c_id | quantity |
++------+------------------+---------+------+----------+
+|    1 | iphone 12        |  999.99 |    4 |       10 |
+|    2 | macbook pro      | 1999.99 |    2 |        5 |
+|    3 | dell xps 15      | 1599.99 |    5 |        8 |
+|    4 | sony platstation | 5499.99 |    3 |       20 |
+|    5 | nintendo         |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX     |  499.99 |    6 |       10 |
++------+------------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from product where 0 < price < 3000;
++------+------------------+---------+------+----------+
+| p_id | name             | price   | c_id | quantity |
++------+------------------+---------+------+----------+
+|    1 | iphone 12        |  999.99 |    4 |       10 |
+|    2 | macbook pro      | 1999.99 |    2 |        5 |
+|    3 | dell xps 15      | 1599.99 |    5 |        8 |
+|    4 | sony platstation | 5499.99 |    3 |       20 |
+|    5 | nintendo         |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX     |  499.99 |    6 |       10 |
++------+------------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from product where price < 3000;
++------+--------------+---------+------+----------+
+| p_id | name         | price   | c_id | quantity |
++------+--------------+---------+------+----------+
+|    1 | iphone 12    |  999.99 |    4 |       10 |
+|    2 | macbook pro  | 1999.99 |    2 |        5 |
+|    3 | dell xps 15  | 1599.99 |    5 |        8 |
+|    5 | nintendo     |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX |  499.99 |    6 |       10 |
++------+--------------+---------+------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from product where price<3000;
++------+--------------+---------+------+----------+
+| p_id | name         | price   | c_id | quantity |
++------+--------------+---------+------+----------+
+|    1 | iphone 12    |  999.99 |    4 |       10 |
+|    2 | macbook pro  | 1999.99 |    2 |        5 |
+|    3 | dell xps 15  | 1599.99 |    5 |        8 |
+|    5 | nintendo     |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX |  499.99 |    6 |       10 |
++------+--------------+---------+------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from product where name:"o%";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':"o%"' at line 1
+mysql> select * from product where name="o%";
+Empty set (0.00 sec)
+
+mysql> select name from product where name="o%";
+Empty set (0.00 sec)
+
+mysql> select name from product where name=" o %";
+Empty set (0.00 sec)
+
+mysql> select name from product where name="i%";
+Empty set (0.00 sec)
+
+mysql> select name from product where name="%o%";
+Empty set (0.00 sec)
+
+mysql> select name from product where name "%o%";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"%o%"' at line 1
+mysql> select name from product where name like "%o%";
++------------------+
+| name             |
++------------------+
+| iphone 12        |
+| macbook pro      |
+| sony platstation |
+| nintendo         |
+| Xbox seriesX     |
++------------------+
+5 rows in set (0.00 sec)
+
+mysql> select name from product where name like "i%";
++-----------+
+| name      |
++-----------+
+| iphone 12 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select name from product where name like "%o";
++-------------+
+| name        |
++-------------+
+| macbook pro |
+| nintendo    |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from product;
++------+------------------+---------+------+----------+
+| p_id | name             | price   | c_id | quantity |
++------+------------------+---------+------+----------+
+|    1 | iphone 12        |  999.99 |    4 |       10 |
+|    2 | macbook pro      | 1999.99 |    2 |        5 |
+|    3 | dell xps 15      | 1599.99 |    5 |        8 |
+|    4 | sony platstation | 5499.99 |    3 |       20 |
+|    5 | nintendo         |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX     |  499.99 |    6 |       10 |
++------+------------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from cate;
++------+---------+--------+
+| c_id | c_name  | parent |
++------+---------+--------+
+|    1 | phone   |   NULL |
+|    2 | laptop  |   NULL |
+|    3 | console |   NULL |
+|    4 | iphone  |      1 |
+|    5 | windows |      2 |
+|    6 | xbox    |      3 |
++------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select name,p_id from product where name like "%o";
++-------------+------+
+| name        | p_id |
++-------------+------+
+| macbook pro |    2 |
+| nintendo    |    5 |
++-------------+------+
+2 rows in set (0.00 sec)
+
+mysql> select product.name  from product join cate on cate.c_id=product.c_id;
++------------------+
+| name             |
++------------------+
+| iphone 12        |
+| macbook pro      |
+| dell xps 15      |
+| sony platstation |
+| nintendo         |
+| Xbox seriesX     |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql> select product.name  from product join cate on cate.c_id=product.c_id where name="console";
+Empty set (0.00 sec)
+
+mysql> select product.name  from product join cate on cate.c_id=product.c_id where c_name="console";
++------------------+
+| name             |
++------------------+
+| sony platstation |
+| nintendo         |
++------------------+
+2 rows in set (0.00 sec)
+
+mysql> select product.name  from product join cate on cate.c_id=product.c_id where c_name="console" order by name desc;
++------------------+
+| name             |
++------------------+
+| sony platstation |
+| nintendo         |
++------------------+
+2 rows in set (0.00 sec)
+
+mysql> select c_id,name,count(product.p_id) from cate c left join product p on cate.c_id=product.c_id group by cate.c_id,cate.name;
+ERROR 1052 (23000): Column 'c_id' in field list is ambiguous
+mysql> select c_id,name,count(product.p_id) from cate c left join product p on cate.c_id=product.c_id group by cate.c_id,cate.name;
+ERROR 1052 (23000): Column 'c_id' in field list is ambiguous
+mysql> select * from cate;
++------+---------+--------+
+| c_id | c_name  | parent |
++------+---------+--------+
+|    1 | phone   |   NULL |
+|    2 | laptop  |   NULL |
+|    3 | console |   NULL |
+|    4 | iphone  |      1 |
+|    5 | windows |      2 |
+|    6 | xbox    |      3 |
++------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from product
+    -> select * from product;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from product' at line 2
+mysql> select * from product;
++------+------------------+---------+------+----------+
+| p_id | name             | price   | c_id | quantity |
++------+------------------+---------+------+----------+
+|    1 | iphone 12        |  999.99 |    4 |       10 |
+|    2 | macbook pro      | 1999.99 |    2 |        5 |
+|    3 | dell xps 15      | 1599.99 |    5 |        8 |
+|    4 | sony platstation | 5499.99 |    3 |       20 |
+|    5 | nintendo         |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX     |  499.99 |    6 |       10 |
++------+------------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> alter table cate add(quality varchar(20),c_date date,mobile int);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from cat;
+ERROR 1146 (42S02): Table 'exam.cat' doesn't exist
+mysql> select * from cate;
++------+---------+--------+---------+--------+--------+
+| c_id | c_name  | parent | quality | c_date | mobile |
++------+---------+--------+---------+--------+--------+
+|    1 | phone   |   NULL | NULL    | NULL   |   NULL |
+|    2 | laptop  |   NULL | NULL    | NULL   |   NULL |
+|    3 | console |   NULL | NULL    | NULL   |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL   |   NULL |
+|    5 | windows |      2 | NULL    | NULL   |   NULL |
+|    6 | xbox    |      3 | NULL    | NULL   |   NULL |
++------+---------+--------+---------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> update cate set quality="good" where c_id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+--------+--------+
+| c_id | c_name  | parent | quality | c_date | mobile |
++------+---------+--------+---------+--------+--------+
+|    1 | phone   |   NULL | good    | NULL   |   NULL |
+|    2 | laptop  |   NULL | NULL    | NULL   |   NULL |
+|    3 | console |   NULL | NULL    | NULL   |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL   |   NULL |
+|    5 | windows |      2 | NULL    | NULL   |   NULL |
+|    6 | xbox    |      3 | NULL    | NULL   |   NULL |
++------+---------+--------+---------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> update cate set c_date=2024-09-08, mobile=1234 where c_id=1;
+ERROR 1292 (22007): Incorrect date value: '2007' for column 'c_date' at row 1
+mysql> update cate set c_date=2024-09-08 where c_id=1;
+ERROR 1292 (22007): Incorrect date value: '2007' for column 'c_date' at row 1
+mysql> update cate set c_date="2024-09-08" where c_id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | mobile |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |   NULL | good    | 2024-09-08 |   NULL |
+|    2 | laptop  |   NULL | NULL    | NULL       |   NULL |
+|    3 | console |   NULL | NULL    | NULL       |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | NULL    | NULL       |   NULL |
+|    6 | xbox    |      3 | NULL    | NULL       |   NULL |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> update cate set mobile=123456 where c_id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | mobile |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |   NULL | good    | 2024-09-08 | 123456 |
+|    2 | laptop  |   NULL | NULL    | NULL       |   NULL |
+|    3 | console |   NULL | NULL    | NULL       |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | NULL    | NULL       |   NULL |
+|    6 | xbox    |      3 | NULL    | NULL       |   NULL |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> update cate set c_date="2024-09-08",quality="good" where c_id=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | mobile |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |   NULL | good    | 2024-09-08 | 123456 |
+|    2 | laptop  |   NULL | good    | 2024-09-08 |   NULL |
+|    3 | console |   NULL | NULL    | NULL       |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | NULL    | NULL       |   NULL |
+|    6 | xbox    |      3 | NULL    | NULL       |   NULL |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> update cate set mobile=123456,c_date="2047-05-18",quality="bad" where c_id=6;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | mobile |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |   NULL | good    | 2024-09-08 | 123456 |
+|    2 | laptop  |   NULL | good    | 2024-09-08 |   NULL |
+|    3 | console |   NULL | NULL    | NULL       |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | NULL    | NULL       |   NULL |
+|    6 | xbox    |      3 | bad     | 2047-05-18 | 123456 |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> update cate set c_date="2022-09-08",quality="bad" where c_id=5;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | mobile |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |   NULL | good    | 2024-09-08 | 123456 |
+|    2 | laptop  |   NULL | good    | 2024-09-08 |   NULL |
+|    3 | console |   NULL | NULL    | NULL       |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | bad     | 2022-09-08 |   NULL |
+|    6 | xbox    |      3 | bad     | 2047-05-18 | 123456 |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select quality from cate;
++---------+
+| quality |
++---------+
+| good    |
+| good    |
+| NULL    |
+| NULL    |
+| bad     |
+| bad     |
++---------+
+6 rows in set (0.00 sec)
+
+mysql> select quality,c_name from cate;
++---------+---------+
+| quality | c_name  |
++---------+---------+
+| good    | phone   |
+| good    | laptop  |
+| NULL    | console |
+| NULL    | iphone  |
+| bad     | windows |
+| bad     | xbox    |
++---------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from cate where c_id=1 or c_id=2;
++------+--------+--------+---------+------------+--------+
+| c_id | c_name | parent | quality | c_date     | mobile |
++------+--------+--------+---------+------------+--------+
+|    1 | phone  |   NULL | good    | 2024-09-08 | 123456 |
+|    2 | laptop |   NULL | good    | 2024-09-08 |   NULL |
++------+--------+--------+---------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> delete from cate where c_name="phone";
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | mobile |
++------+---------+--------+---------+------------+--------+
+|    2 | laptop  |   NULL | good    | 2024-09-08 |   NULL |
+|    3 | console |   NULL | NULL    | NULL       |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | bad     | 2022-09-08 |   NULL |
+|    6 | xbox    |      3 | bad     | 2047-05-18 | 123456 |
++------+---------+--------+---------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> delete from cate where c_name="laptop";
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`exam`.`product`, CONSTRAINT `product_ibfk_1` FOREIGN KEY (`c_id`) REFERENCES `cate` (`c_id`))
+mysql> delete from cate where c_name="laptop";
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`exam`.`product`, CONSTRAINT `product_ibfk_1` FOREIGN KEY (`c_id`) REFERENCES `cate` (`c_id`))
+mysql> delete from cate where c_name="laptop";
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`exam`.`product`, CONSTRAINT `product_ibfk_1` FOREIGN KEY (`c_id`) REFERENCES `cate` (`c_id`))
+mysql> delete from cate where c_name="laptop";
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`exam`.`product`, CONSTRAINT `product_ibfk_1` FOREIGN KEY (`c_id`) REFERENCES `cate` (`c_id`))
+mysql> delete from cate where c_name="iphone";
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`exam`.`product`, CONSTRAINT `product_ibfk_1` FOREIGN KEY (`c_id`) REFERENCES `cate` (`c_id`))
+mysql> alter table cast drop colume mobile;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mobile' at line 1
+mysql> alter table cate drop colume mobile;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mobile' at line 1
+mysql> alter table cate drop column mobile;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+
+| c_id | c_name  | parent | quality | c_date     |
++------+---------+--------+---------+------------+
+|    2 | laptop  |   NULL | good    | 2024-09-08 |
+|    3 | console |   NULL | NULL    | NULL       |
+|    4 | iphone  |      1 | NULL    | NULL       |
+|    5 | windows |      2 | bad     | 2022-09-08 |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |
++------+---------+--------+---------+------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into cate values(1,"phone",2,"bad",c_date="2034-23-23");
+ERROR 1292 (22007): Incorrect date value: '2034-23-23' for column 'c_date' at row 1
+mysql> insert into cate values(1,"phone",2,"bad",c_date="2034-02-23");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+
+| c_id | c_name  | parent | quality | c_date     |
++------+---------+--------+---------+------------+
+|    1 | phone   |      2 | bad     | NULL       |
+|    2 | laptop  |   NULL | good    | 2024-09-08 |
+|    3 | console |   NULL | NULL    | NULL       |
+|    4 | iphone  |      1 | NULL    | NULL       |
+|    5 | windows |      2 | bad     | 2022-09-08 |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |
++------+---------+--------+---------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from cate where name like "c%";
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> select * from cate where name like= "c%";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= "c%"' at line 1
+mysql> select * from cate where c_name like "c%";
++------+---------+--------+---------+--------+
+| c_id | c_name  | parent | quality | c_date |
++------+---------+--------+---------+--------+
+|    3 | console |   NULL | NULL    | NULL   |
++------+---------+--------+---------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from cate where c_name like "%p";
++------+--------+--------+---------+------------+
+| c_id | c_name | parent | quality | c_date     |
++------+--------+--------+---------+------------+
+|    2 | laptop |   NULL | good    | 2024-09-08 |
++------+--------+--------+---------+------------+
+1 row in set (0.00 sec)
+
+mysql> select c_id from cate where c_name like "%w%";
++------+
+| c_id |
++------+
+|    5 |
++------+
+1 row in set (0.00 sec)
+
+mysql> update cate set name="" where c_id=2;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> update cate set c_name=" " where c_id=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+
+| c_id | c_name  | parent | quality | c_date     |
++------+---------+--------+---------+------------+
+|    1 | phone   |      2 | bad     | NULL       |
+|    2 |         |   NULL | good    | 2024-09-08 |
+|    3 | console |   NULL | NULL    | NULL       |
+|    4 | iphone  |      1 | NULL    | NULL       |
+|    5 | windows |      2 | bad     | 2022-09-08 |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |
++------+---------+--------+---------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select c_id from cate where c_id<=3;
++------+
+| c_id |
++------+
+|    1 |
+|    2 |
+|    3 |
++------+
+3 rows in set (0.00 sec)
+
+mysql> select c_id from cate where c_id=3;
++------+
+| c_id |
++------+
+|    3 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select c_id from cate where c_id=>3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=>3' at line 1
+mysql> select c_id from cate where c_id>3;
++------+
+| c_id |
++------+
+|    4 |
+|    5 |
+|    6 |
++------+
+3 rows in set (0.00 sec)
+
+mysql> select c_id from cate where c_id>=3;
++------+
+| c_id |
++------+
+|    3 |
+|    4 |
+|    5 |
+|    6 |
++------+
+4 rows in set (0.00 sec)
+
+mysql> select c_id from cate where c_id=!3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=!3' at line 1
+mysql> select c_id from cate where c_id =! 3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=! 3' at line 1
+mysql> desc cate;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| c_id    | int         | NO   | PRI | NULL    |       |
+| c_name  | varchar(50) | NO   |     | NULL    |       |
+| parent  | int         | YES  |     | NULL    |       |
+| quality | varchar(20) | YES  |     | NULL    |       |
+| c_date  | date        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select c_name from cate order by C_name;
++---------+
+| c_name  |
++---------+
+|         |
+| console |
+| iphone  |
+| phone   |
+| windows |
+| xbox    |
++---------+
+6 rows in set (0.00 sec)
+
+mysql> select c_name from cate order by C_name desc;
++---------+
+| c_name  |
++---------+
+| xbox    |
+| windows |
+| phone   |
+| iphone  |
+| console |
+|         |
++---------+
+6 rows in set (0.00 sec)
+
+mysql> alter table cate add(salary float default 100.00);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | salary |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |      2 | bad     | NULL       |    100 |
+|    2 |         |   NULL | good    | 2024-09-08 |    100 |
+|    3 | console |   NULL | NULL    | NULL       |    100 |
+|    4 | iphone  |      1 | NULL    | NULL       |    100 |
+|    5 | windows |      2 | bad     | 2022-09-08 |    100 |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |    100 |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> alter table cate drop column salary;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+
+| c_id | c_name  | parent | quality | c_date     |
++------+---------+--------+---------+------------+
+|    1 | phone   |      2 | bad     | NULL       |
+|    2 |         |   NULL | good    | 2024-09-08 |
+|    3 | console |   NULL | NULL    | NULL       |
+|    4 | iphone  |      1 | NULL    | NULL       |
+|    5 | windows |      2 | bad     | 2022-09-08 |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |
++------+---------+--------+---------+------------+
+6 rows in set (0.00 sec)
+
+mysql> alter table cate add(salary float);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | salary |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |      2 | bad     | NULL       |   NULL |
+|    2 |         |   NULL | good    | 2024-09-08 |   NULL |
+|    3 | console |   NULL | NULL    | NULL       |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | bad     | 2022-09-08 |   NULL |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |   NULL |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> insert into cate values(123.345);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into cate values(123.3);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> update cate set salary=123.33 where c_id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | salary |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |      2 | bad     | NULL       | 123.33 |
+|    2 |         |   NULL | good    | 2024-09-08 |   NULL |
+|    3 | console |   NULL | NULL    | NULL       |   NULL |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | bad     | 2022-09-08 |   NULL |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |   NULL |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> insert into cate values(234.345);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> update cate set salary=123.33 where c_id=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update cate set salary=453.33 where c_id=3;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select salary from cate;
++--------+
+| salary |
++--------+
+| 123.33 |
+| 123.33 |
+| 453.33 |
+|   NULL |
+|   NULL |
+|   NULL |
++--------+
+6 rows in set (0.00 sec)
+
+mysql> select min(salary) from cate;
++-------------+
+| min(salary) |
++-------------+
+|      123.33 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) from cate;
++-------------+
+| max(salary) |
++-------------+
+|      453.33 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) from cate;
++--------------------+
+| avg(salary)        |
++--------------------+
+| 233.32999674479166 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select salary from cate where salary between 100 and 200;
++--------+
+| salary |
++--------+
+| 123.33 |
+| 123.33 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | salary |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |      2 | bad     | NULL       | 123.33 |
+|    2 |         |   NULL | good    | 2024-09-08 | 123.33 |
+|    3 | console |   NULL | NULL    | NULL       | 453.33 |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | bad     | 2022-09-08 |   NULL |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |   NULL |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select c_name from cate where quality in ("good","bad");
++---------+
+| c_name  |
++---------+
+| phone   |
+|         |
+| windows |
+| xbox    |
++---------+
+4 rows in set (0.00 sec)
+
+mysql> select c_name from cate where quality("good","bad");
+ERROR 1305 (42000): FUNCTION exam.quality does not exist
+mysql> select c_name from cate where quality in ("good","bad");
++---------+
+| c_name  |
++---------+
+| phone   |
+|         |
+| windows |
+| xbox    |
++---------+
+4 rows in set (0.00 sec)
+
+mysql> select c_name from cate where quality not in ("good","bad");
+Empty set (0.00 sec)
+
+mysql> select c_name from cate where quality not in ("good");
++---------+
+| c_name  |
++---------+
+| phone   |
+| windows |
+| xbox    |
++---------+
+3 rows in set (0.00 sec)
+
+mysql> select count(c_name) from cate;
++---------------+
+| count(c_name) |
++---------------+
+|             6 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select count(c_name) from cate group by quality order by quality;
++---------------+
+| count(c_name) |
++---------------+
+|             2 |
+|             3 |
+|             1 |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql> select count(salary) from cate group by quality order by quality;
++---------------+
+| count(salary) |
++---------------+
+|             1 |
+|             1 |
+|             1 |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | salary |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |      2 | bad     | NULL       | 123.33 |
+|    2 |         |   NULL | good    | 2024-09-08 | 123.33 |
+|    3 | console |   NULL | NULL    | NULL       | 453.33 |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | bad     | 2022-09-08 |   NULL |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |   NULL |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from product;
++------+------------------+---------+------+----------+
+| p_id | name             | price   | c_id | quantity |
++------+------------------+---------+------+----------+
+|    1 | iphone 12        |  999.99 |    4 |       10 |
+|    2 | macbook pro      | 1999.99 |    2 |        5 |
+|    3 | dell xps 15      | 1599.99 |    5 |        8 |
+|    4 | sony platstation | 5499.99 |    3 |       20 |
+|    5 | nintendo         |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX     |  499.99 |    6 |       10 |
++------+------------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select cate.c_id,cate.c_name,product.c_id from cate join product on cate.c_id=product.c_id;
++------+---------+------+
+| c_id | c_name  | c_id |
++------+---------+------+
+|    2 |         |    2 |
+|    3 | console |    3 |
+|    3 | console |    3 |
+|    4 | iphone  |    4 |
+|    5 | windows |    5 |
+|    6 | xbox    |    6 |
++------+---------+------+
+6 rows in set (0.00 sec)
+
+mysql> select * from cate join product on cate.c_id=product.c_id;
++------+---------+--------+---------+------------+--------+------+------------------+---------+------+----------+
+| c_id | c_name  | parent | quality | c_date     | salary | p_id | name             | price   | c_id | quantity |
++------+---------+--------+---------+------------+--------+------+------------------+---------+------+----------+
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |    1 | iphone 12        |  999.99 |    4 |       10 |
+|    2 |         |   NULL | good    | 2024-09-08 | 123.33 |    2 | macbook pro      | 1999.99 |    2 |        5 |
+|    5 | windows |      2 | bad     | 2022-09-08 |   NULL |    3 | dell xps 15      | 1599.99 |    5 |        8 |
+|    3 | console |   NULL | NULL    | NULL       | 453.33 |    4 | sony platstation | 5499.99 |    3 |       20 |
+|    3 | console |   NULL | NULL    | NULL       | 453.33 |    5 | nintendo         |  149.99 |    3 |       12 |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |   NULL |    6 | Xbox seriesX     |  499.99 |    6 |       10 |
++------+---------+--------+---------+------------+--------+------+------------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select cate.c_id,cate.c_name,product.c_id from cate left join product on cate.c_id=product.c_id;
++------+---------+------+
+| c_id | c_name  | c_id |
++------+---------+------+
+|    1 | phone   | NULL |
+|    2 |         |    2 |
+|    3 | console |    3 |
+|    3 | console |    3 |
+|    4 | iphone  |    4 |
+|    5 | windows |    5 |
+|    6 | xbox    |    6 |
++------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select cate.c_id,cate.c_name,product.c_id from cate right join product on cate.c_id=product.c_id;
++------+---------+------+
+| c_id | c_name  | c_id |
++------+---------+------+
+|    2 |         |    2 |
+|    3 | console |    3 |
+|    3 | console |    3 |
+|    4 | iphone  |    4 |
+|    5 | windows |    5 |
+|    6 | xbox    |    6 |
++------+---------+------+
+6 rows in set (0.00 sec)
+
+mysql> select cate.c_id,cate.c_name,product.c_id from cate join product on cate.c_id>product.c_id;
++------+---------+------+
+| c_id | c_name  | c_id |
++------+---------+------+
+|    3 | console |    2 |
+|    4 | iphone  |    2 |
+|    5 | windows |    2 |
+|    6 | xbox    |    2 |
+|    4 | iphone  |    3 |
+|    5 | windows |    3 |
+|    6 | xbox    |    3 |
+|    4 | iphone  |    3 |
+|    5 | windows |    3 |
+|    6 | xbox    |    3 |
+|    5 | windows |    4 |
+|    6 | xbox    |    4 |
+|    6 | xbox    |    5 |
++------+---------+------+
+13 rows in set (0.00 sec)
+
+mysql> create view e_view select * from cate;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from cate' at line 1
+mysql> create view eview select * from cate;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from cate' at line 1
+mysql> create view eview as select * from cate;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from eview;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | salary |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |      2 | bad     | NULL       | 123.33 |
+|    2 |         |   NULL | good    | 2024-09-08 | 123.33 |
+|    3 | console |   NULL | NULL    | NULL       | 453.33 |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | bad     | 2022-09-08 |   NULL |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |   NULL |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select c_id,c_name from cate c where exists(select * from product p where cate.c_id=product.c_id);
+ERROR 1054 (42S22): Unknown column 'cate.c_id' in 'where clause'
+mysql> select c_id,c_name from cate c where exists(select * from product p where cate.c_id=product.c_id);
+ERROR 1054 (42S22): Unknown column 'cate.c_id' in 'where clause'
+mysql> select c_id,c_name from cate c where exists(select * from product p where c.c_id=p.c_id);
++------+---------+
+| c_id | c_name  |
++------+---------+
+|    2 |         |
+|    3 | console |
+|    4 | iphone  |
+|    5 | windows |
+|    6 | xbox    |
++------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from product;
++------+------------------+---------+------+----------+
+| p_id | name             | price   | c_id | quantity |
++------+------------------+---------+------+----------+
+|    1 | iphone 12        |  999.99 |    4 |       10 |
+|    2 | macbook pro      | 1999.99 |    2 |        5 |
+|    3 | dell xps 15      | 1599.99 |    5 |        8 |
+|    4 | sony platstation | 5499.99 |    3 |       20 |
+|    5 | nintendo         |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX     |  499.99 |    6 |       10 |
++------+------------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from cate;
++------+---------+--------+---------+------------+--------+
+| c_id | c_name  | parent | quality | c_date     | salary |
++------+---------+--------+---------+------------+--------+
+|    1 | phone   |      2 | bad     | NULL       | 123.33 |
+|    2 |         |   NULL | good    | 2024-09-08 | 123.33 |
+|    3 | console |   NULL | NULL    | NULL       | 453.33 |
+|    4 | iphone  |      1 | NULL    | NULL       |   NULL |
+|    5 | windows |      2 | bad     | 2022-09-08 |   NULL |
+|    6 | xbox    |      3 | bad     | 2047-05-18 |   NULL |
++------+---------+--------+---------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> alter table cate drop column quality,c_date,salary;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'c_date,salary' at line 1
+mysql> alter table cate drop column quality;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table cate drop column c_date;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table cate drop column salary;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+
+| c_id | c_name  | parent |
++------+---------+--------+
+|    1 | phone   |      2 |
+|    2 |         |   NULL |
+|    3 | console |   NULL |
+|    4 | iphone  |      1 |
+|    5 | windows |      2 |
+|    6 | xbox    |      3 |
++------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> update cate set c_name="laptop" where c_id=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cate;
++------+---------+--------+
+| c_id | c_name  | parent |
++------+---------+--------+
+|    1 | phone   |      2 |
+|    2 | laptop  |   NULL |
+|    3 | console |   NULL |
+|    4 | iphone  |      1 |
+|    5 | windows |      2 |
+|    6 | xbox    |      3 |
++------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from product;
++------+------------------+---------+------+----------+
+| p_id | name             | price   | c_id | quantity |
++------+------------------+---------+------+----------+
+|    1 | iphone 12        |  999.99 |    4 |       10 |
+|    2 | macbook pro      | 1999.99 |    2 |        5 |
+|    3 | dell xps 15      | 1599.99 |    5 |        8 |
+|    4 | sony platstation | 5499.99 |    3 |       20 |
+|    5 | nintendo         |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX     |  499.99 |    6 |       10 |
++------+------------------+---------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> selct * from product where price between 0 and 300;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selct * from product where price between 0 and 300' at line 1
+mysql> select * from product where price between 0 and 300;
++------+----------+--------+------+----------+
+| p_id | name     | price  | c_id | quantity |
++------+----------+--------+------+----------+
+|    5 | nintendo | 149.99 |    3 |       12 |
++------+----------+--------+------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from product where price between 0 and 3000;
++------+--------------+---------+------+----------+
+| p_id | name         | price   | c_id | quantity |
++------+--------------+---------+------+----------+
+|    1 | iphone 12    |  999.99 |    4 |       10 |
+|    2 | macbook pro  | 1999.99 |    2 |        5 |
+|    3 | dell xps 15  | 1599.99 |    5 |        8 |
+|    5 | nintendo     |  149.99 |    3 |       12 |
+|    6 | Xbox seriesX |  499.99 |    6 |       10 |
++------+--------------+---------+------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select p_id,name from product where name like "%o%";
++------+------------------+
+| p_id | name             |
++------+------------------+
+|    1 | iphone 12        |
+|    2 | macbook pro      |
+|    4 | sony platstation |
+|    5 | nintendo         |
+|    6 | Xbox seriesX     |
++------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> select name from product join cate on product.c_id=cate.c_id ;
++------------------+
+| name             |
++------------------+
+| iphone 12        |
+| macbook pro      |
+| dell xps 15      |
+| sony platstation |
+| nintendo         |
+| Xbox seriesX     |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql> select name from product join cate on product.c_id=cate.c_id order bt desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'bt desc' at line 1
+mysql> select name from product join cate on product.c_id=cate.c_id order by desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc' at line 1
+mysql> select name from product join cate on product.c_id=cate.c_id order by name desc;
++------------------+
+| name             |
++------------------+
+| Xbox seriesX     |
+| sony platstation |
+| nintendo         |
+| macbook pro      |
+| iphone 12        |
+| dell xps 15      |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql> select name from cate join product on product.c_id=cate.c_id where name="console" order by name desc;
+Empty set (0.00 sec)
+
+mysql> select name from cate join product on product.c_id=cate.c_id where name="consoles" order by name desc;
+Empty set (0.00 sec)
+
+mysql> select name from cate join product on product.c_id=cate.c_id where name="consoles" order by name desc;
+Empty set (0.00 sec)
+
+mysql> select name from cate join product on product.c_id=cate.c_id where name="console" order by name desc;
+Empty set (0.00 sec)
+
+mysql> select name from cate join product on cate.c_id=product.c_id where name="console" order by name desc;
+Empty set (0.00 sec)
+
+mysql> select name from product join cate on product.c_id=cate.c_id order by desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc' at line 1
+mysql> select name from product join cate on product.c_id=cate.c_id ;
++------------------+
+| name             |
++------------------+
+| iphone 12        |
+| macbook pro      |
+| dell xps 15      |
+| sony platstation |
+| nintendo         |
+| Xbox seriesX     |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql> select name from cate join product on product.c_id=cate.c_id ;
++------------------+
+| name             |
++------------------+
+| iphone 12        |
+| macbook pro      |
+| dell xps 15      |
+| sony platstation |
+| nintendo         |
+| Xbox seriesX     |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql> select name from c_cate join product on product.c_id=cate.c_id ;
+ERROR 1146 (42S02): Table 'exam.c_cate' doesn't exist
+mysql> select c_name from cate join product on product.c_id=cate.c_id ;
++---------+
+| c_name  |
++---------+
+| laptop  |
+| console |
+| console |
+| iphone  |
+| windows |
+| xbox    |
++---------+
+6 rows in set (0.00 sec)
+
+mysql> select c_name from cate join product on product.c_id=cate.c_id where name="console" order by desc ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc' at line 1
+mysql> select c_name from cate join product on product.c_id=cate.c_id where name="console" order by desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc' at line 1
+mysql> select c_name from cate join product on product.c_id=cate.c_id where name="console" order by name desc;
+Empty set (0.00 sec)
+
+mysql> select c_name from cate join product on product.c_id=cate.c_id where name="console" order by c_name desc;
+Empty set (0.00 sec)
+
+mysql> select c_name from cate join product on product.c_id=cate.c_id where c_name="console" order by c_name desc;
++---------+
+| c_name  |
++---------+
+| console |
+| console |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select count(c_id,name) from cate;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',name) from cate' at line 1
+mysql> select count(c_id) from cate;
++-------------+
+| count(c_id) |
++-------------+
+|           6 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(c_id),count(name) from cate where;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select count(c_id),count(name) from cate;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select count(c_id),count(c_name) from cate;
++-------------+---------------+
+| count(c_id) | count(c_name) |
++-------------+---------------+
+|           6 |             6 |
++-------------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select count(c_id),count(c_name),count() from cate ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') from cate' at line 1
+mysql> select count(c_id),count(c_name),cate.count() from cate ;
+ERROR 1630 (42000): FUNCTION cate.count does not exist. Check the 'Function Name Parsing and Resolution' section in the Reference Manual
+mysql> select count(c_id),count(c_name) from cate ;
++-------------+---------------+
+| count(c_id) | count(c_name) |
++-------------+---------------+
+|           6 |             6 |
++-------------+---------------+
+1 row in set (0.01 sec)
+
+mysql> select cate.c_id,cate.name,count(product.p_id) as total from cate join product on cate.c_id=product.c_id group by cate.c_id,cate.c_name;
+ERROR 1054 (42S22): Unknown column 'cate.name' in 'field list'
+mysql> select cate.c_id,cate.name,count(product.p_id) as total from cate left join product on cate.c_id=product.c_id group by cate.c_id,cate.c_name;
+ERROR 1054 (42S22): Unknown column 'cate.name' in 'field list'
+mysql> select cate.c_id,cate.c_name,count(product.p_id) as total from cate left join product on cate.c_id=product.c_id group by cate.c_id,cate.c_name;
++------+---------+-------+
+| c_id | c_name  | total |
++------+---------+-------+
+|    1 | phone   |     0 |
+|    2 | laptop  |     1 |
+|    3 | console |     2 |
+|    4 | iphone  |     1 |
+|    5 | windows |     1 |
+|    6 | xbox    |     1 |
++------+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select cate.c_id,cate.c_name,count(product.p_id) as total from cate join product on cate.c_id=product.c_id group by cate.c_id,cate.c_name;
++------+---------+-------+
+| c_id | c_name  | total |
++------+---------+-------+
+|    2 | laptop  |     1 |
+|    3 | console |     2 |
+|    4 | iphone  |     1 |
+|    5 | windows |     1 |
+|    6 | xbox    |     1 |
++------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select cate.c_id,cate.c_name,count(product.p_id) as total from cate left join product on cate.c_id=product.c_id group by cate.c_id,cate.c_name;
++------+---------+-------+
+| c_id | c_name  | total |
++------+---------+-------+
+|    1 | phone   |     0 |
+|    2 | laptop  |     1 |
+|    3 | console |     2 |
+|    4 | iphone  |     1 |
+|    5 | windows |     1 |
+|    6 | xbox    |     1 |
++------+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select C_name,count(product.p_id) as total as cate join product on cate.c_id=product.p_id where quantity>15;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as cate join product on cate.c_id=product.p_id where quantity>15' at line 1
+mysql> select c_name,count(product.p_id) as total as cate join product on cate.c_id=product.p_id where quantity>15;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as cate join product on cate.c_id=product.p_id where quantity>15' at line 1
+mysql> select cate.c_name,count(product.quantiry) as total as cate join product on cate.c_id=product.p_id group by cate.name having count quantity>15;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as cate join product on cate.c_id=product.p_id group by cate.name having count q' at line 1
+mysql> select cate.c_name,sun(product.quantiry) as total as qty cate join product on cate.c_id=product.c_id group by cate.c_name having total qyt>15;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as qty cate join product on cate.c_id=product.c_id group by cate.c_name having t' at line 1
+mysql> select cate.c_name,sun(product.quantiry) as total as quantity cate join product on cate.c_id=product.c_id group by cate.c_name having total quantity>15;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as quantity cate join product on cate.c_id=product.c_id group by cate.c_name hav' at line 1
+mysql> select cate.c_name,sum(product.quantity) as total gyt cate join product on cate.c_id=product.p_id group by cate.c_name having total qyt>15;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'gyt cate join product on cate.c_id=product.p_id group by cate.c_name having tota' at line 1
+mysql> select cate.c_name,sum(product.quantity) as total gyt cate join product on cate.c_id=product.c_id group by cate.c_name having total qyt>15;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'gyt cate join product on cate.c_id=product.c_id group by cate.c_name having tota' at line 1
+mysql> select cate.c_name,sum(product.quantity) as gyt cate join product on cate.c_id=product.c_id group by cate.c_name having qyt>15;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cate join product on cate.c_id=product.c_id group by cate.c_name having qyt>15' at line 1
+mysql> select cate.c_name,sum(product.quantity) as gyt from cate join product on cate.c_id=product.c_id group by cate.c_name having qyt>15;
+ERROR 1054 (42S22): Unknown column 'qyt' in 'having clause'
+mysql> select cate.c_name,sum(product.quantity) as gyt from cate join product on cate.c_id=product.c_id group by cate.c_name having qyt>15;
+ERROR 1054 (42S22): Unknown column 'qyt' in 'having clause'
+mysql> select cate.c_name,sum(product.quantity) as x from cate join product on cate.c_id=product.c_id group by cate.c_name having x>15;
++---------+------+
+| c_name  | x    |
++---------+------+
+| console |   32 |
++---------+------+
+1 row in set (0.00 sec)
+
+mysql>

@@ -1,0 +1,117 @@
+test:PRIMARY> use sala;
+switched to db sala
+test:PRIMARY> db.bhai.insert({name:"kunjol",age:25})
+WriteResult({ "nInserted" : 1 })
+test:PRIMARY> db.bhai.find().pretty()
+{
+        "_id" : ObjectId("668cf5060604b18210223c9a"),
+        "name" : "kunjol",
+        "age" : 25
+}
+test:PRIMARY> use admin
+switched to db admin
+test:PRIMARY> db.shutdownServer();
+server should be down...
+>
+..................................................
+ show dbs
+uncaught exception: Error: listDatabases failed:{
+        "topologyVersion" : {
+                "processId" : ObjectId("668cf04e36cf4ec8f6c44962"),
+                "counter" : NumberLong(4)
+        },
+        "ok" : 0,
+        "errmsg" : "not master and slaveOk=false",
+        "code" : 13435,
+        "codeName" : "NotPrimaryNoSecondaryOk",
+        "$clusterTime" : {
+                "clusterTime" : Timestamp(1720513921, 1),
+                "signature" : {
+                        "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+                        "keyId" : NumberLong(0)
+                }
+        },
+        "operationTime" : Timestamp(1720513921, 1)
+} :
+_getErrorWithCode@src/mongo/shell/utils.js:25:13
+Mongo.prototype.getDBs/<@src/mongo/shell/mongo.js:145:19
+Mongo.prototype.getDBs@src/mongo/shell/mongo.js:97:12
+shellHelper.show@src/mongo/shell/utils.js:960:13
+shellHelper@src/mongo/shell/utils.js:842:15
+@(shellhelp2):1:1
+test:SECONDARY> rs.slaveOk()
+WARNING: slaveOk() is deprecated and may be removed in the next major release. Please use secondaryOk() instead.
+test:SECONDARY> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+sala    0.000GB
+test:SECONDARY> show collections
+test:SECONDARY> use sala
+switched to db sala
+test:SECONDARY> show collections
+bhai
+test:SECONDARY> db.bhai.find().pretty()
+{
+        "_id" : ObjectId("668cf5060604b18210223c9a"),
+        "name" : "kunjol",
+        "age" : 25
+}
+test:PRIMARY> db.bhai.find().pretty()
+{
+        "_id" : ObjectId("668cf5060604b18210223c9a"),
+        "name" : "kunjol",
+        "age" : 25
+}
+test:PRIMARY> db.test.insert({name:"jithesh"})
+WriteResult({ "nInserted" : 1 })
+test:PRIMARY> db.test.find().pretty()
+{ "_id" : ObjectId("668cf8348552c6fe8b96f8e8"), "name" : "jithesh" }
+test:PRIMARY>
+.........................................
+
+
+
+
+
+
+
+
+
+
+
+
+
+test:SECONDARY> rs.slaveOk()
+WARNING: slaveOk() is deprecated and may be removed in the next major release. Please use secondaryOk() instead.
+test:SECONDARY> use sala
+switched to db sala
+test:SECONDARY> show collections
+bhai
+test:SECONDARY> db.bhai.find().pretty()
+{
+        "_id" : ObjectId("668cf5060604b18210223c9a"),
+        "name" : "kunjol",
+        "age" : 25
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
